@@ -6,3 +6,11 @@ C:\PersonalProject\DotaWin\Dota.Services\obj\Debug\Dota.Services.dll
 C:\PersonalProject\DotaWin\Dota.Services\obj\Debug\Dota.Services.pdb
 C:\PersonalProject\DotaWin\Dota.Services\bin\Debug\Dota.Models.dll
 C:\PersonalProject\DotaWin\Dota.Services\bin\Debug\Dota.Models.pdb
+C:\CodeProjects\DotaWin\Dota.Services\bin\Debug\Dota.Services.dll
+C:\CodeProjects\DotaWin\Dota.Services\bin\Debug\Dota.Services.pdb
+C:\CodeProjects\DotaWin\Dota.Services\bin\Debug\Dota.Models.dll
+C:\CodeProjects\DotaWin\Dota.Services\bin\Debug\Dota.Models.pdb
+C:\CodeProjects\DotaWin\Dota.Services\obj\Debug\Dota.Services.csprojResolveAssemblyReference.cache
+C:\CodeProjects\DotaWin\Dota.Services\obj\Debug\Dota.Services.csproj.CoreCompileInputs.cache
+C:\CodeProjects\DotaWin\Dota.Services\obj\Debug\Dota.Services.dll
+C:\CodeProjects\DotaWin\Dota.Services\obj\Debug\Dota.Services.pdb

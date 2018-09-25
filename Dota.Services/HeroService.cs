@@ -36,7 +36,8 @@ namespace Dota.Services
                         HeroId = (int)reader["HeroId"],
                         HeroName = (string)reader["HeroName"],
                         PrimaryAttribute = (int)reader["PrimaryAttribute"],
-                        HeroTier = (int)reader["HeroTier"]
+                        HeroTier = (int)reader["HeroTier"],
+                        HeroImage = (string)reader["HeroImage"]
                     };
 
                     heroList.Add(heroToAdd);

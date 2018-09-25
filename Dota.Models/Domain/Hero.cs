@@ -11,6 +11,7 @@ namespace Dota.Models.Domain
         public int HeroId { get; set; }
         public string HeroName { get; set; }
         public int PrimaryAttribute { get; set; }
+        public string HeroImage { get; set; }
         public decimal TopLaneWinRate { get; set; }
         public decimal MidLaneWinRate { get; set; }
         public decimal BotLaneWinRate { get; set; }
