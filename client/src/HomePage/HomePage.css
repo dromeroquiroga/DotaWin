@@ -51,7 +51,26 @@ div.boxShadowDire {
     border: 0;
 }
 
+td.iconOverlay {
+    position: absolute;
+    justify-content: center
+}
+
+img.hero:hover{
+    transform: scale(1.5)
+}
+
 img.drafted {
     -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
     filter: grayscale(100%);
+}
+
+img.overlay {
+    position: absolute;
+}
+
+img.draftedOverlay {
+    position: absolute;
+    margin-left: -60px;
+    margin-top: -5px;
 }

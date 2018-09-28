@@ -67,6 +67,7 @@ C:\PersonalProject\DotaWin\Dota.Web\bin\Unity.RegistrationByConvention.pdb
 C:\PersonalProject\DotaWin\Dota.Web\bin\Unity.ServiceLocation.pdb
 C:\PersonalProject\DotaWin\Dota.Web\bin\Unity.AspNet.WebApi.dll
 C:\PersonalProject\DotaWin\Dota.Web\bin\WebActivatorEx.dll
+C:\CodeProjects\DotaWin\Dota.Web\obj\Debug\Dota.Web.csproj.CoreCompileInputs.cache
 C:\CodeProjects\DotaWin\Dota.Web\bin\ApplicationInsights.config
 C:\CodeProjects\DotaWin\Dota.Web\bin\Dota.Web.dll.config
 C:\CodeProjects\DotaWin\Dota.Web\bin\Dota.Web.dll
@@ -133,6 +134,5 @@ C:\CodeProjects\DotaWin\Dota.Web\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\CodeProjects\DotaWin\Dota.Web\bin\Microsoft.AI.WindowsServer.xml
 C:\CodeProjects\DotaWin\Dota.Web\bin\Microsoft.AI.Web.xml
 C:\CodeProjects\DotaWin\Dota.Web\obj\Debug\Dota.Web.csprojResolveAssemblyReference.cache
-C:\CodeProjects\DotaWin\Dota.Web\obj\Debug\Dota.Web.csproj.CoreCompileInputs.cache
 C:\CodeProjects\DotaWin\Dota.Web\obj\Debug\Dota.Web.dll
 C:\CodeProjects\DotaWin\Dota.Web\obj\Debug\Dota.Web.pdb

@@ -1,25 +1,46 @@
 import React from "react";
+import { mapTemplates } from "./HomePageFunctions";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { GetAllHeroes } from "../Services/HeroService";
+import {
+  GetAllHeroes,
+  InsertMatchup,
+  GetTemplates
+} from "../Services/HeroService";
 import { Helmet } from "react-helmet";
-import { Table, Row, Col, Card, Button } from "reactstrap";
+import {
+  Table,
+  Row,
+  Col,
+  Card,
+  Button,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu
+} from "reactstrap";
 import MapSection from "./MapSection";
 import HomePageSweetAlerts from "./HomePageSweetAlerts";
 import "./HomePage.css";
 
 class Home extends React.Component {
   state = {
+    matchups: [],
+
     strHeroes: [],
     agiHeroes: [],
     intHeroes: [],
 
     radiantTeam: [],
+    radIcons: [],
     direTeam: [],
+    direIcons: [],
 
     heroSelected: {},
 
     teamFullAlert: false,
     heroDraftedAlert: false,
+    templateNameAlert: false,
+
+    dropdownToggle: false,
 
     whiteText: { color: "white" }
   };
@@ -27,12 +48,12 @@ class Home extends React.Component {
   componentDidMount() {
     let grabHeroes = GetAllHeroes();
 
-    grabHeroes.then(response => {
+    grabHeroes.then(response1 => {
       let tempStrArray = [];
       let tempAgiArray = [];
       let tempIntArray = [];
 
-      let newResponse = response.data.map(hero => ({
+      let newResponse = response1.data.map(hero => ({
         ...hero,
         drafted: false
       }));
@@ -47,10 +68,15 @@ class Home extends React.Component {
         }
       }
 
-      this.setState({
-        strHeroes: tempStrArray,
-        agiHeroes: tempAgiArray,
-        intHeroes: tempIntArray
+      let grabTemplates = GetTemplates();
+
+      grabTemplates.then(response2 => {
+        this.setState({
+          matchups: response2.data,
+          strHeroes: tempStrArray,
+          agiHeroes: tempAgiArray,
+          intHeroes: tempIntArray
+        });
       });
     });
   }
@@ -67,11 +93,15 @@ class Home extends React.Component {
     });
   };
 
+  templateNameAlertOff = () => {
+    this.setState({
+      templateNameAlert: false
+    });
+  };
+
   handleHeroClicked = (hero, indexNum) => {
     let tempHeroObj = hero;
-
-    tempHeroObj = { ...hero, position: indexNum };
-
+    tempHeroObj = { ...hero, arrayPosition: indexNum };
     this.setState({ heroSelected: tempHeroObj });
   };
 
@@ -79,9 +109,13 @@ class Home extends React.Component {
     if (hero.drafted) {
       return (
         <td>
-          <a href="javascript:void(0)">
-            <img className="drafted" src={`${hero.heroImage}`} />
-          </a>
+          <img className="drafted" src={`${hero.heroImage}`} />
+          <img
+            className="draftedOverlay"
+            src="https://blo.org/wp-content/uploads/2017/05/rtl-ttb-Slasha.png"
+            height="45px"
+            width="65px"
+          />
         </td>
       );
     } else {
@@ -89,6 +123,7 @@ class Home extends React.Component {
         <td>
           <a href="javascript:void(0)">
             <img
+              className="hero"
               src={`${hero.heroImage}`}
               onClick={() => this.handleHeroClicked(hero, index)}
             />
@@ -100,6 +135,7 @@ class Home extends React.Component {
 
   addToRadiant = hero => {
     let tempRadiantArray = this.state.radiantTeam;
+    let tempRadIconsArray = this.state.radIcons;
 
     if (hero.drafted) {
       this.setState({
@@ -111,36 +147,44 @@ class Home extends React.Component {
       });
     } else {
       hero.drafted = true;
+      let tempHeroObj = { ...hero, position: 1 };
+      tempHeroObj.isRadiant = true;
       if (hero.primaryAttribute === 1) {
         let tempStrArray = this.state.strHeroes;
 
-        tempStrArray[hero.position].drafted = true;
-        tempRadiantArray.push(hero);
+        tempStrArray[hero.arrayPosition].drafted = true;
+        tempRadiantArray.push(tempHeroObj);
+        tempRadIconsArray.push(hero.heroMinimapIcon);
 
         this.setState({
           radiantTeam: tempRadiantArray,
+          radIcons: tempRadIconsArray,
           strHeroes: tempStrArray,
           heroSelected: hero
         });
       } else if (hero.primaryAttribute === 2) {
         let tempAgiArray = this.state.agiHeroes;
 
-        tempAgiArray[hero.position].drafted = true;
-        tempRadiantArray.push(hero);
+        tempAgiArray[hero.arrayPosition].drafted = true;
+        tempRadiantArray.push(tempHeroObj);
+        tempRadIconsArray.push(hero.heroMinimapIcon);
 
         this.setState({
           radiantTeam: tempRadiantArray,
+          radIcons: tempRadIconsArray,
           agiHeroes: tempAgiArray,
           heroSelected: hero
         });
       } else if (hero.primaryAttribute === 3) {
         let tempIntArray = this.state.intHeroes;
 
-        tempIntArray[hero.position].drafted = true;
-        tempRadiantArray.push(hero);
+        tempIntArray[hero.arrayPosition].drafted = true;
+        tempRadiantArray.push(tempHeroObj);
+        tempRadIconsArray.push(hero.heroMinimapIcon);
 
         this.setState({
           radiantTeam: tempRadiantArray,
+          radIcons: tempRadIconsArray,
           intHeroes: tempIntArray,
           heroSelected: hero
         });
@@ -150,6 +194,7 @@ class Home extends React.Component {
 
   addToDire = hero => {
     let tempDireArray = this.state.direTeam;
+    let tempDireIconsArray = this.state.direIcons;
 
     if (hero.drafted) {
       this.setState({
@@ -161,41 +206,79 @@ class Home extends React.Component {
       });
     } else {
       hero.drafted = true;
+      let tempHeroObj = { ...hero, position: 1 };
+      tempHeroObj.isRadiant = false;
       if (hero.primaryAttribute === 1) {
         let tempStrArray = this.state.strHeroes;
 
-        tempStrArray[hero.position].drafted = true;
-        tempDireArray.push(hero);
+        tempStrArray[hero.arrayPosition].drafted = true;
+        tempDireArray.push(tempHeroObj);
+        tempDireIconsArray.push(hero.heroMinimapIcon);
 
         this.setState({
           direTeam: tempDireArray,
+          direIcons: tempDireIconsArray,
           strHeroes: tempStrArray,
           heroSelected: hero
         });
       } else if (hero.primaryAttribute === 2) {
         let tempAgiArray = this.state.agiHeroes;
 
-        tempAgiArray[hero.position].drafted = true;
-        tempDireArray.push(hero);
+        tempAgiArray[hero.arrayPosition].drafted = true;
+        tempDireArray.push(tempHeroObj);
+        tempDireIconsArray.push(hero.heroMinimapIcon);
 
         this.setState({
           direTeam: tempDireArray,
+          direIcons: tempDireIconsArray,
           agiHeroes: tempAgiArray,
           heroSelected: hero
         });
       } else if (hero.primaryAttribute === 3) {
         let tempIntArray = this.state.intHeroes;
 
-        tempIntArray[hero.position].drafted = true;
-        tempDireArray.push(hero);
+        tempIntArray[hero.arrayPosition].drafted = true;
+        tempDireArray.push(tempHeroObj);
+        tempDireIconsArray.push(hero.heroMinimapIcon);
 
         this.setState({
           direTeam: tempDireArray,
+          direIcons: tempDireIconsArray,
           intHeroes: tempIntArray,
           heroSelected: hero
         });
       }
     }
+  };
+
+  changeHeroPosition = (value, index, isRadiant) => {
+    if (isRadiant) {
+      let tempRadiantArray = this.state.radiantTeam;
+      tempRadiantArray[index].position = value;
+
+      this.setState({
+        radiantTeam: tempRadiantArray
+      });
+    } else {
+      let tempDireArray = this.state.direTeam;
+      tempDireArray[index].position = value;
+
+      this.setState({
+        direTeam: tempDireArray
+      });
+    }
+  };
+
+  submitMatchup = (radiantTeam, direTeam, templateName) => {
+    let matchupObj = { radiantTeam, direTeam, templateName };
+
+    let insteringMatchup = InsertMatchup(matchupObj);
+
+    insteringMatchup.then(
+      this.setState({
+        templateNameAlert: false
+      })
+    );
   };
 
   render() {
@@ -263,16 +346,25 @@ class Home extends React.Component {
           style={{ marginLeft: 0, marginRight: 0, marginTop: "20px" }}
         >
           <img
-            src={`http://cdn.dota2.com/apps/dota2/images/heroes/${
+            src={`${
               this.state.heroSelected.heroName === undefined
-                ? ""
-                : this.state.heroSelected.heroName.toLowerCase()
-            }_vert.jpg?v=4728473`}
+                ? "https://i.imgur.com/69t4o4W.jpg"
+                : this.state.heroSelected.heroSelectedImage
+            }`}
             width="235"
             height="272"
           />
+          <img
+            className="overlay"
+            src={`http://cdn.dota2.com/apps/dota2/images/heropedia/heroprimaryportrait_overlay.png`}
+            width="243"
+            height="278"
+          />
         </div>
-        <div className="row justify-content-center">
+        <div
+          className="row justify-content-center"
+          style={{ marginLeft: 0, marginRight: 0 }}
+        >
           <h1 style={whiteText} className="title text-center">
             {`${
               this.state.heroSelected.heroName === undefined
@@ -287,29 +379,117 @@ class Home extends React.Component {
         >
           <div>
             <Button
-              color="primary"
+              style={{
+                width: "175px",
+                backgroundColor: "white",
+                color: "black"
+              }}
               onClick={() => this.addToRadiant(this.state.heroSelected)}
             >
-              Draft To Radiant
+              {`<-- Draft To Radiant`}
             </Button>
             {` `}
             <Button
-              color="danger"
+              style={{
+                width: "175px",
+                backgroundColor: "darkorange",
+                color: "white"
+              }}
               onClick={() => this.addToDire(this.state.heroSelected)}
             >
-              Draft To Dire
+              {`Draft To Dire -->`}
             </Button>
           </div>
         </div>
         <MapSection
           radiantTeam={this.state.radiantTeam}
           direTeam={this.state.direTeam}
+          changeHeroPosition={(value, index, isRadiant) =>
+            this.changeHeroPosition(value, index, isRadiant)
+          }
         />
+        <div
+          className="row justify-content-center"
+          style={{ marginLeft: 0, marginRight: 0, marginTop: "10px" }}
+        >
+          <div>
+            <Button
+              color="success"
+              onClick={() => this.setState({ templateNameAlert: true })}
+              style={{
+                width: "175px"
+              }}
+            >
+              Save Matchup
+            </Button>
+            {` `}
+            <ButtonDropdown
+              direction="up"
+              isOpen={this.state.dropdownToggle}
+              toggle={() =>
+                this.setState({ dropdownToggle: !this.state.dropdownToggle })
+              }
+            >
+              <DropdownToggle
+                caret
+                color="info"
+                style={{
+                  width: "175px"
+                }}
+              >
+                {" "}
+                Choose Matchup
+              </DropdownToggle>
+              <DropdownMenu>
+                {this.state.matchups.map(match => mapTemplates(match))}
+              </DropdownMenu>
+            </ButtonDropdown>
+          </div>
+        </div>
+        <div
+          className="row justify-content-center"
+          style={{ marginLeft: 0, marginRight: 0, marginTop: "10px" }}
+        >
+          <div>
+            <Button
+              outline
+              disabled
+              color="success"
+              //onClick={() => this.setState({ templateNameAlert: true })}
+              style={{
+                width: "175px"
+              }}
+            >
+              Update Matchup
+            </Button>
+            {` `}
+            <Button
+              outline
+              disabled
+              color="danger"
+              //onClick={() => this.setState({ templateNameAlert: true })}
+              style={{
+                width: "175px"
+              }}
+            >
+              Delete Matchup
+            </Button>
+          </div>
+        </div>
         <HomePageSweetAlerts
+          templateNameAlert={this.state.templateNameAlert}
+          templateNameAlertOff={() => this.templateNameAlertOff()}
           teamFullAlert={this.state.teamFullAlert}
           teamFullAlertOff={() => this.teamFullAlertOff()}
           heroDraftedAlert={this.state.heroDraftedAlert}
           heroDraftedAlertOff={() => this.heroDraftedAlertOff()}
+          submitMatchup={templateName =>
+            this.submitMatchup(
+              this.state.radiantTeam,
+              this.state.direTeam,
+              templateName
+            )
+          }
         />
       </div>
     );

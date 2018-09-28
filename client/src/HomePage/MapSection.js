@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Card, Input } from "reactstrap";
+import { Table, Card, Input, Button } from "reactstrap";
 
 class MapSection extends React.Component {
   state = {
@@ -9,7 +9,7 @@ class MapSection extends React.Component {
     whiteText: { color: "white" }
   };
 
-  mapRadiantTeam(hero) {
+  mapRadiantTeam(hero, index) {
     return (
       <div className="row" style={{ marginTop: "5px" }}>
         <div className="col-4 float-left">
@@ -19,19 +19,25 @@ class MapSection extends React.Component {
           <img src={`${hero.heroImage}`} />
         </div>
         <div className="col-4 float-left">
-          <Input type="select">
-            <option>Top Lane</option>
-            <option>Mid Lane</option>
-            <option>Bot Lane</option>
-            <option>Jungle</option>
-            <option>Roaming</option>
+          <Input
+            type="select"
+            value={hero.position}
+            onChange={event =>
+              this.props.changeHeroPosition(event.target.value, index, true)
+            }
+          >
+            <option value={1}>Off Lane</option>
+            <option value={2}>Mid Lane</option>
+            <option value={3}>Safe Lane</option>
+            <option value={4}>Jungle</option>
+            <option value={5}>Roaming</option>
           </Input>
         </div>
       </div>
     );
   }
 
-  mapDireTeam(hero) {
+  mapDireTeam(hero, index) {
     return (
       <div className="row" style={{ marginTop: "5px" }}>
         <div className="col-4 float-left">
@@ -41,12 +47,18 @@ class MapSection extends React.Component {
           <img src={`${hero.heroImage}`} />
         </div>
         <div className="col-4 float-left">
-          <Input type="select">
-            <option>Top Lane</option>
-            <option>Mid Lane</option>
-            <option>Bot Lane</option>
-            <option>Jungle</option>
-            <option>Roaming</option>
+          <Input
+            type="select"
+            value={hero.position}
+            onChange={event =>
+              this.props.changeHeroPosition(event.target.value, index, false)
+            }
+          >
+            <option value={1}>Off Lane</option>
+            <option value={2}>Mid Lane</option>
+            <option value={3}>Safe Lane</option>
+            <option value={4}>Jungle</option>
+            <option value={5}>Roaming</option>
           </Input>
         </div>
       </div>
@@ -64,7 +76,9 @@ class MapSection extends React.Component {
                 <h2 className="title text-center" style={whiteText}>
                   <u>Radiant Team</u>
                 </h2>
-                {this.props.radiantTeam.map(hero => this.mapRadiantTeam(hero))}
+                {this.props.radiantTeam.map((hero, index) =>
+                  this.mapRadiantTeam(hero, index)
+                )}
               </Card>
             </td>
             <td className="text-center" width="20%">
@@ -73,13 +87,39 @@ class MapSection extends React.Component {
                 height="500m"
                 width="500m"
               />
+              {this.props.radiantTeam.map((hero, index) => {
+                return (
+                  <img
+                    className="overlay"
+                    style={{
+                      marginLeft: `${-90 * (index + 1)}px`,
+                      marginTop: "425px"
+                    }}
+                    src={`${hero.heroMinimapIcon}`}
+                  />
+                );
+              })}
+              {this.props.direTeam.map((hero, index) => {
+                return (
+                  <img
+                    className="overlay"
+                    style={{
+                      marginLeft: `${-90 * (index + 1)}px`,
+                      marginTop: "25px"
+                    }}
+                    src={`${hero.heroMinimapIcon}`}
+                  />
+                );
+              })}
             </td>
             <td width="40%">
               <Card body className="boxShadowDire">
                 <h2 className="title text-center" style={whiteText}>
                   <u>Dire Team</u>
                 </h2>
-                {this.props.direTeam.map(hero => this.mapDireTeam(hero))}
+                {this.props.direTeam.map((hero, index) =>
+                  this.mapDireTeam(hero, index)
+                )}
               </Card>
             </td>
           </tr>

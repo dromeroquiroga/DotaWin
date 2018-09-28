@@ -47,6 +47,7 @@ C:\PersonalProject\DotaWin\Dota.Web.Tests\bin\Debug\WebActivatorEx.dll
 C:\PersonalProject\DotaWin\Dota.Web.Tests\bin\Debug\Unity.Abstractions.dll
 C:\PersonalProject\DotaWin\Dota.Web.Tests\bin\Debug\Unity.Container.dll
 C:\PersonalProject\DotaWin\Dota.Web.Tests\bin\Debug\Unity.AspNet.WebApi.dll
+C:\CodeProjects\DotaWin\Dota.Web.Tests\obj\Debug\Dota.Web.Tests.csproj.CoreCompileInputs.cache
 C:\CodeProjects\DotaWin\Dota.Web.Tests\bin\Debug\ApplicationInsights.config
 C:\CodeProjects\DotaWin\Dota.Web.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
 C:\CodeProjects\DotaWin\Dota.Web.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
@@ -93,6 +94,5 @@ C:\CodeProjects\DotaWin\Dota.Web.Tests\bin\Debug\Dota.Services.pdb
 C:\CodeProjects\DotaWin\Dota.Web.Tests\bin\Debug\Dota.Models.pdb
 C:\CodeProjects\DotaWin\Dota.Web.Tests\bin\Debug\System.Web.Http.WebHost.xml
 C:\CodeProjects\DotaWin\Dota.Web.Tests\obj\Debug\Dota.Web.Tests.csprojResolveAssemblyReference.cache
-C:\CodeProjects\DotaWin\Dota.Web.Tests\obj\Debug\Dota.Web.Tests.csproj.CoreCompileInputs.cache
 C:\CodeProjects\DotaWin\Dota.Web.Tests\obj\Debug\Dota.Web.Tests.dll
 C:\CodeProjects\DotaWin\Dota.Web.Tests\obj\Debug\Dota.Web.Tests.pdb

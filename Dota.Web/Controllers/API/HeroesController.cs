@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace Dota.Web.Controllers.API
 {
-    [RoutePrefix("api/heroes")]
+    [RoutePrefix("api/dotawin")]
     public class HeroesController : ApiController
     {
         readonly HeroService heroService;
@@ -20,7 +20,7 @@ namespace Dota.Web.Controllers.API
             this.heroService = heroService;
         }
 
-        [Route, HttpGet]
+        [Route("heroes"), HttpGet]
         public HttpResponseMessage GetAllHeroes()
         {
             List<Hero> heroList = heroService.getAll();
@@ -28,37 +28,41 @@ namespace Dota.Web.Controllers.API
             return Request.CreateResponse(HttpStatusCode.OK, heroList);
         }
 
-        [Route("{id:int}"), HttpGet]
-        public HttpResponseMessage GetHeroById(int id)
+        [Route("matchup"), HttpPost]
+        public HttpResponseMessage CreateMatchup(CreateTemplateInfo matchCreateRequest)
         {
-            Hero selectedHero = new Hero();
+            if (matchCreateRequest == null)
+            {
+                ModelState.AddModelError("", "You Need a JSON Body There Chief!");
+            }
 
-            selectedHero.HeroName = "Hero";
-            selectedHero.HeroId = 0;
-            selectedHero.HeroTier = 1;
-            selectedHero.PrimaryAttribute = 1;
-            selectedHero.TopLaneWinRate = 1 * 100;
-            selectedHero.MidLaneWinRate = 1 * 100;
-            selectedHero.BotLaneWinRate = 1 * 100;
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
 
-            return Request.CreateResponse(HttpStatusCode.OK, selectedHero);
-        }
-
-        [Route, HttpPost]
-        public HttpResponseMessage InsertHero(CreateHeroRequest model)
-        {
+            heroService.InsertMatchTemplate(matchCreateRequest);
             return Request.CreateResponse(HttpStatusCode.OK, "Take It Easy Big Shoots!");
         }
 
-        // PUT: api/Heroes/5
-        [Route("{id:int}"), HttpPut]
-        public HttpResponseMessage UpdateHero(int id, HeroUpdateRequest model)
+        [Route("templates"), HttpGet]
+        public HttpResponseMessage GetTemplateList()
         {
+            List<Template> templateList = heroService.getTemplates();
+
+            return Request.CreateResponse(HttpStatusCode.OK, templateList);
+        }
+
+        [Route("matchup"), HttpGet]
+        public HttpResponseMessage GetMatchup(int templateId)
+        {
+
+
             return Request.CreateResponse(HttpStatusCode.OK, "New Guy Commin Through Bud!");
         }
 
         // DELETE: api/Heroes/5
-        [Route("{id:int}"), HttpDelete]
+        [Route("templates"), HttpDelete]
         public HttpResponseMessage DeleteHero(int id)
         {
             return Request.CreateResponse(HttpStatusCode.OK, "Hes Dead Jim!");

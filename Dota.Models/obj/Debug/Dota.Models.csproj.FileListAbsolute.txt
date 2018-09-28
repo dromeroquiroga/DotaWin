@@ -4,9 +4,9 @@ C:\PersonalProject\DotaWin\Dota.Models\obj\Debug\Dota.Models.csprojResolveAssemb
 C:\PersonalProject\DotaWin\Dota.Models\obj\Debug\Dota.Models.csproj.CoreCompileInputs.cache
 C:\PersonalProject\DotaWin\Dota.Models\obj\Debug\Dota.Models.dll
 C:\PersonalProject\DotaWin\Dota.Models\obj\Debug\Dota.Models.pdb
+C:\CodeProjects\DotaWin\Dota.Models\obj\Debug\Dota.Models.csproj.CoreCompileInputs.cache
 C:\CodeProjects\DotaWin\Dota.Models\bin\Debug\Dota.Models.dll
 C:\CodeProjects\DotaWin\Dota.Models\bin\Debug\Dota.Models.pdb
-C:\CodeProjects\DotaWin\Dota.Models\obj\Debug\Dota.Models.csprojResolveAssemblyReference.cache
-C:\CodeProjects\DotaWin\Dota.Models\obj\Debug\Dota.Models.csproj.CoreCompileInputs.cache
 C:\CodeProjects\DotaWin\Dota.Models\obj\Debug\Dota.Models.dll
 C:\CodeProjects\DotaWin\Dota.Models\obj\Debug\Dota.Models.pdb
+C:\CodeProjects\DotaWin\Dota.Models\obj\Debug\Dota.Models.csprojResolveAssemblyReference.cache

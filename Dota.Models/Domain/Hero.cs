@@ -12,9 +12,10 @@ namespace Dota.Models.Domain
         public string HeroName { get; set; }
         public int PrimaryAttribute { get; set; }
         public string HeroImage { get; set; }
-        public decimal TopLaneWinRate { get; set; }
-        public decimal MidLaneWinRate { get; set; }
-        public decimal BotLaneWinRate { get; set; }
+        public string HeroSelectedImage { get; set; }
+        public string HeroMinimapIcon { get; set; }
+        public bool IsRadiant { get; set; }
+        public int Position { get; set; }
         public int HeroTier { get; set; }
     }
 }
