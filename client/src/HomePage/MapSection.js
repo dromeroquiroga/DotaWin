@@ -10,15 +10,33 @@ class MapSection extends React.Component {
   };
 
   mapRadiantTeam(hero, index) {
+    let atrSymbol = "";
+
+    if (hero.primaryAttribute === 1) {
+      atrSymbol =
+        "https://d1u5p3l4wpay3k.cloudfront.net/dota2_gamepedia/thumb/7/7a/Strength_attribute_symbol.png/30px-Strength_attribute_symbol.png?version=6306b398d1e0dddfd5f3d1719c6e3c71";
+    } else if (hero.primaryAttribute === 2) {
+      atrSymbol =
+        "https://d1u5p3l4wpay3k.cloudfront.net/dota2_gamepedia/thumb/2/2d/Agility_attribute_symbol.png/30px-Agility_attribute_symbol.png?version=2bb35660c66454fc3b024fdb19b9ee29";
+    } else {
+      atrSymbol =
+        "https://d1u5p3l4wpay3k.cloudfront.net/dota2_gamepedia/thumb/5/56/Intelligence_attribute_symbol.png/30px-Intelligence_attribute_symbol.png?version=aea75b8d40acffb8f90549a9ff6cdecb";
+    }
     return (
       <div className="row" style={{ marginTop: "5px" }}>
-        <div className="col-4 float-left">
-          <font color="white">{hero.heroName}</font>
+        <div className="col-3 float-left">
+          <font color="white">{`${hero.heroName}`}</font>
         </div>
-        <div className="col-4 float-left">
+        <div className="col-2 float-right">
+          <font color="white">{`${hero.heroWinRate}`}</font>
+        </div>
+        <div className="col-2 float-right">
           <img src={`${hero.heroImage}`} />
         </div>
-        <div className="col-4 float-left">
+        <div className="col-2 float-right">
+          <img src={`${atrSymbol}`} height="30px" width="30px" />
+        </div>
+        <div className="col-3 float-left">
           <Input
             type="select"
             value={hero.position}
@@ -38,15 +56,34 @@ class MapSection extends React.Component {
   }
 
   mapDireTeam(hero, index) {
+    let atrSymbol = "";
+
+    if (hero.primaryAttribute === 1) {
+      atrSymbol =
+        "https://d1u5p3l4wpay3k.cloudfront.net/dota2_gamepedia/thumb/7/7a/Strength_attribute_symbol.png/30px-Strength_attribute_symbol.png?version=6306b398d1e0dddfd5f3d1719c6e3c71";
+    } else if (hero.primaryAttribute === 2) {
+      atrSymbol =
+        "https://d1u5p3l4wpay3k.cloudfront.net/dota2_gamepedia/thumb/2/2d/Agility_attribute_symbol.png/30px-Agility_attribute_symbol.png?version=2bb35660c66454fc3b024fdb19b9ee29";
+    } else {
+      atrSymbol =
+        "https://d1u5p3l4wpay3k.cloudfront.net/dota2_gamepedia/thumb/5/56/Intelligence_attribute_symbol.png/30px-Intelligence_attribute_symbol.png?version=aea75b8d40acffb8f90549a9ff6cdecb";
+    }
+
     return (
       <div className="row" style={{ marginTop: "5px" }}>
-        <div className="col-4 float-left">
-          <font color="white">{hero.heroName}</font>
+        <div className="col-3 float-left">
+          <font color="white">{`${hero.heroName}`}</font>
         </div>
-        <div className="col-4 float-left">
+        <div className="col-2 float-right">
+          <font color="white">{`${hero.heroWinRate}`}</font>
+        </div>
+        <div className="col-2 float-right">
           <img src={`${hero.heroImage}`} />
         </div>
-        <div className="col-4 float-left">
+        <div className="col-2 float-right">
+          <img src={`${atrSymbol}`} height="30px" width="30px" />
+        </div>
+        <div className="col-3 float-left">
           <Input
             type="select"
             value={hero.position}
@@ -84,16 +121,16 @@ class MapSection extends React.Component {
             <td className="text-center" width="20%">
               <img
                 src="https://i.imgur.com/90XfxsX.jpg"
-                height="500m"
-                width="500m"
+                height="400m"
+                width="400m"
               />
               {this.props.radiantTeam.map((hero, index) => {
                 return (
                   <img
                     className="overlay"
                     style={{
-                      marginLeft: `${-90 * (index + 1)}px`,
-                      marginTop: "425px"
+                      marginLeft: `${-75 * (index + 1)}px`,
+                      marginTop: "325px"
                     }}
                     src={`${hero.heroMinimapIcon}`}
                   />
@@ -104,7 +141,7 @@ class MapSection extends React.Component {
                   <img
                     className="overlay"
                     style={{
-                      marginLeft: `${-90 * (index + 1)}px`,
+                      marginLeft: `${-75 * (index + 1)}px`,
                       marginTop: "25px"
                     }}
                     src={`${hero.heroMinimapIcon}`}

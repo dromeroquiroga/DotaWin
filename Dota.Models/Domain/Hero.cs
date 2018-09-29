@@ -17,5 +17,7 @@ namespace Dota.Models.Domain
         public bool IsRadiant { get; set; }
         public int Position { get; set; }
         public int HeroTier { get; set; }
+        public bool Drafted { get; set; }
+        public string HeroWinRate { get; set; }
     }
 }

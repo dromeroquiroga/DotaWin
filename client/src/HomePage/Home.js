@@ -4,7 +4,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {
   GetAllHeroes,
   InsertMatchup,
-  GetTemplates
+  GetTemplates,
+  GetMatchup,
+  DeleteMatchup,
+  UpdateMatchup
 } from "../Services/HeroService";
 import { Helmet } from "react-helmet";
 import {
@@ -15,7 +18,8 @@ import {
   Button,
   ButtonDropdown,
   DropdownToggle,
-  DropdownMenu
+  DropdownMenu,
+  DropdownItem
 } from "reactstrap";
 import MapSection from "./MapSection";
 import HomePageSweetAlerts from "./HomePageSweetAlerts";
@@ -24,6 +28,9 @@ import "./HomePage.css";
 class Home extends React.Component {
   state = {
     matchups: [],
+    matchupIdSelected: 0,
+    matchupName: "",
+    matchupSelected: false,
 
     strHeroes: [],
     agiHeroes: [],
@@ -67,7 +74,6 @@ class Home extends React.Component {
           tempIntArray.push(newResponse[i]);
         }
       }
-
       let grabTemplates = GetTemplates();
 
       grabTemplates.then(response2 => {
@@ -132,6 +138,111 @@ class Home extends React.Component {
       );
     }
   }
+
+  mapTemplates(match) {
+    return (
+      <DropdownItem
+        value={match.templateId}
+        onClick={event =>
+          this.setMatchup(event.target.value, match.templateName)
+        }
+      >
+        {match.templateName}
+      </DropdownItem>
+    );
+  }
+
+  deleteMatchup = matchId => {
+    DeleteMatchup(matchId);
+  };
+
+  updateMatchup = () => {
+    let updatedMatchupObj = {
+      TemplateId: this.state.matchupIdSelected,
+      TemplateName: this.state.matchupName,
+      RadiantInfo: this.state.radiantTeam,
+      DireInfo: this.state.direTeam
+    };
+    UpdateMatchup(updatedMatchupObj);
+  };
+
+  setMatchup = (matchid, matchupName) => {
+    let tempRadiantArray = [];
+    let tempRadIcons = [];
+    let tempDireArray = [];
+    let tempDireIcons = [];
+
+    let tempStrHeroes = this.state.strHeroes;
+    let tempAgiHeroes = this.state.agiHeroes;
+    let tempIntHeroes = this.state.intHeroes;
+
+    //Resetting the drafted state if a new matchup is called
+    tempStrHeroes.forEach(strHero => (strHero.drafted = false));
+    tempAgiHeroes.forEach(agiHero => (agiHero.drafted = false));
+    tempIntHeroes.forEach(intHero => (intHero.drafted = false));
+
+    let grabMatchup = GetMatchup(matchid);
+
+    grabMatchup.then(response => {
+      response.data.forEach(hero => {
+        if (hero.isRadiant) {
+          tempRadiantArray.push(hero);
+          tempRadIcons.push(hero.heroMinimapIcon);
+        } else {
+          tempDireArray.push(hero);
+          tempDireIcons.push(hero.heroMinimapIcon);
+        }
+      });
+      tempRadiantArray.forEach(matchedHero => {
+        tempStrHeroes.forEach(strHero => {
+          if (matchedHero.heroId === strHero.heroId) {
+            strHero.drafted = true;
+          }
+        });
+        tempAgiHeroes.forEach(agiHero => {
+          if (matchedHero.heroId === agiHero.heroId) {
+            agiHero.drafted = true;
+          }
+        });
+        tempIntHeroes.forEach(intHero => {
+          if (matchedHero.heroId === intHero.heroId) {
+            intHero.drafted = true;
+          }
+        });
+      });
+
+      tempDireArray.forEach(matchedHero => {
+        tempStrHeroes.forEach(strHero => {
+          if (matchedHero.heroId === strHero.heroId) {
+            strHero.drafted = true;
+          }
+        });
+        tempAgiHeroes.forEach(agiHero => {
+          if (matchedHero.heroId === agiHero.heroId) {
+            agiHero.drafted = true;
+          }
+        });
+        tempIntHeroes.forEach(intHero => {
+          if (matchedHero.heroId === intHero.heroId) {
+            intHero.drafted = true;
+          }
+        });
+      });
+
+      this.setState({
+        matchupName: matchupName,
+        matchupSelected: true,
+        matchupIdSelected: matchid,
+        radiantTeam: tempRadiantArray,
+        direTeam: tempDireArray,
+        radIcons: tempRadIcons,
+        direIcons: tempDireIcons,
+        strHeroes: tempStrHeroes,
+        agiHeroes: tempAgiHeroes,
+        intHeroes: tempIntHeroes
+      });
+    });
+  };
 
   addToRadiant = hero => {
     let tempRadiantArray = this.state.radiantTeam;
@@ -432,7 +543,7 @@ class Home extends React.Component {
             >
               <DropdownToggle
                 caret
-                color="info"
+                color="primary"
                 style={{
                   width: "175px"
                 }}
@@ -441,7 +552,7 @@ class Home extends React.Component {
                 Choose Matchup
               </DropdownToggle>
               <DropdownMenu>
-                {this.state.matchups.map(match => mapTemplates(match))}
+                {this.state.matchups.map(match => this.mapTemplates(match))}
               </DropdownMenu>
             </ButtonDropdown>
           </div>
@@ -452,10 +563,10 @@ class Home extends React.Component {
         >
           <div>
             <Button
-              outline
-              disabled
-              color="success"
-              //onClick={() => this.setState({ templateNameAlert: true })}
+              outline={!this.state.matchupSelected}
+              disabled={!this.state.matchupSelected}
+              color="warning"
+              onClick={() => this.updateMatchup()}
               style={{
                 width: "175px"
               }}
@@ -464,10 +575,10 @@ class Home extends React.Component {
             </Button>
             {` `}
             <Button
-              outline
-              disabled
+              outline={!this.state.matchupSelected}
+              disabled={!this.state.matchupSelected}
               color="danger"
-              //onClick={() => this.setState({ templateNameAlert: true })}
+              onClick={() => this.deleteMatchup(this.state.matchupIdSelected)}
               style={{
                 width: "175px"
               }}

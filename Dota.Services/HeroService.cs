@@ -41,7 +41,8 @@ namespace Dota.Services
                         HeroTier = (int)reader["HeroTier"],
                         HeroImage = (string)reader["HeroImage"],
                         HeroSelectedImage = (string)reader["HeroSelectedImage"],
-                        HeroMinimapIcon = (string)reader["HeroMinimapIcon"]
+                        HeroMinimapIcon = (string)reader["HeroMinimapIcon"],
+                        HeroWinRate = (string)reader["HeroWinRate"]
                     };
 
                     heroList.Add(heroToAdd);
@@ -65,6 +66,42 @@ namespace Dota.Services
                 cmd.CommandText = "CreateMatchup";
 
                 cmd.Parameters.AddWithValue("@matchup", JsonConvert.SerializeObject(templateToInsert));
+
+                cmd.ExecuteNonQuery();
+
+                sqlCon.Close();
+            }
+        }
+
+        public void UpdateMatchTemplate(UpdateTemplateInfo templateInfo)
+        {
+            SqlConnection sqlCon = new SqlConnection(connString);
+            {
+                sqlCon.Open();
+
+                SqlCommand cmd = sqlCon.CreateCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "UpdateMatchup";
+
+                cmd.Parameters.AddWithValue("@matchUp", JsonConvert.SerializeObject(templateInfo));
+
+                cmd.ExecuteNonQuery();
+
+                sqlCon.Close();
+            }
+        }
+
+        public void DeleteMatchup(int templateId)
+        {
+            SqlConnection sqlCon = new SqlConnection(connString);
+            {
+                sqlCon.Open();
+
+                SqlCommand cmd = sqlCon.CreateCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "DeleteMatchup";
+
+                cmd.Parameters.AddWithValue("@templateId", templateId);
 
                 cmd.ExecuteNonQuery();
 
@@ -104,7 +141,7 @@ namespace Dota.Services
             return templateList;
         }
 
-        public List<Hero> getMatchup()
+        public List<Hero> getMatchup(int templateId)
         {
             List<Hero> matchupList = new List<Hero>();
 
@@ -115,6 +152,8 @@ namespace Dota.Services
                 SqlCommand cmd = sqlCon.CreateCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "GetMatchup";
+
+                cmd.Parameters.AddWithValue("@templateId", templateId);
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -129,7 +168,8 @@ namespace Dota.Services
                         HeroTier = (int)reader["HeroTier"],
                         HeroImage = (string)reader["HeroImage"],
                         HeroSelectedImage = (string)reader["HeroSelectedImage"],
-                        HeroMinimapIcon = (string)reader["HeroMinimapIcon"]
+                        HeroMinimapIcon = (string)reader["HeroMinimapIcon"],
+                        HeroWinRate = (string)reader["HeroWinRate"]
                     };
 
                     matchupList.Add(heroToAdd);

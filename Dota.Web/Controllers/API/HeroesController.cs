@@ -45,7 +45,7 @@ namespace Dota.Web.Controllers.API
             return Request.CreateResponse(HttpStatusCode.OK, "Take It Easy Big Shoots!");
         }
 
-        [Route("templates"), HttpGet]
+        [Route("matchup"), HttpGet]
         public HttpResponseMessage GetTemplateList()
         {
             List<Template> templateList = heroService.getTemplates();
@@ -53,19 +53,37 @@ namespace Dota.Web.Controllers.API
             return Request.CreateResponse(HttpStatusCode.OK, templateList);
         }
 
-        [Route("matchup"), HttpGet]
+        [Route("matchup"), HttpPut]
+        public HttpResponseMessage UpdateMatchup(UpdateTemplateInfo matchUpdateRequest)
+        {
+            if (matchUpdateRequest == null)
+            {
+                ModelState.AddModelError("", "You Need A Body For This Request!");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            heroService.UpdateMatchTemplate(matchUpdateRequest);
+            return Request.CreateResponse(HttpStatusCode.OK, "You Updated My Guy!");
+        }
+
+        [Route("matchup/{templateId:int}"), HttpDelete]
+        public HttpResponseMessage DeleteMatchup(int templateId)
+        {
+            heroService.DeleteMatchup(templateId);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [Route("matchup/{templateId:int}"), HttpGet]
         public HttpResponseMessage GetMatchup(int templateId)
         {
 
+            List<Hero> matchList = heroService.getMatchup(templateId);
 
-            return Request.CreateResponse(HttpStatusCode.OK, "New Guy Commin Through Bud!");
-        }
-
-        // DELETE: api/Heroes/5
-        [Route("templates"), HttpDelete]
-        public HttpResponseMessage DeleteHero(int id)
-        {
-            return Request.CreateResponse(HttpStatusCode.OK, "Hes Dead Jim!");
+            return Request.CreateResponse(HttpStatusCode.OK, matchList);
         }
     }
 }
