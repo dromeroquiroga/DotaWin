@@ -42,7 +42,7 @@ namespace Dota.Services
                         HeroImage = (string)reader["HeroImage"],
                         HeroSelectedImage = (string)reader["HeroSelectedImage"],
                         HeroMinimapIcon = (string)reader["HeroMinimapIcon"],
-                        HeroWinRate = (string)reader["HeroWinRate"]
+                        HeroWinRate = (decimal)reader["HeroWinRate"]
                     };
 
                     heroList.Add(heroToAdd);
@@ -165,11 +165,12 @@ namespace Dota.Services
                         IsRadiant = (bool)reader["RadiantTeam"],
                         HeroName = (string)reader["HeroName"],
                         PrimaryAttribute = (int)reader["PrimaryAttribute"],
+                        Position = (int)reader["Position"],
                         HeroTier = (int)reader["HeroTier"],
                         HeroImage = (string)reader["HeroImage"],
                         HeroSelectedImage = (string)reader["HeroSelectedImage"],
                         HeroMinimapIcon = (string)reader["HeroMinimapIcon"],
-                        HeroWinRate = (string)reader["HeroWinRate"]
+                        HeroWinRate = (decimal)reader["HeroWinRate"]
                     };
 
                     matchupList.Add(heroToAdd);

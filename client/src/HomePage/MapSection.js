@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, Card, Input, Button } from "reactstrap";
+import numeral from "numeral";
 
 class MapSection extends React.Component {
   state = {
@@ -28,7 +29,9 @@ class MapSection extends React.Component {
           <font color="white">{`${hero.heroName}`}</font>
         </div>
         <div className="col-2 float-right">
-          <font color="white">{`${hero.heroWinRate}`}</font>
+          <font color="white">{`${numeral(hero.heroWinRate).format(
+            "0.00%"
+          )}`}</font>
         </div>
         <div className="col-2 float-right">
           <img src={`${hero.heroImage}`} />
@@ -75,7 +78,9 @@ class MapSection extends React.Component {
           <font color="white">{`${hero.heroName}`}</font>
         </div>
         <div className="col-2 float-right">
-          <font color="white">{`${hero.heroWinRate}`}</font>
+          <font color="white">{`${numeral(hero.heroWinRate).format(
+            "0.00%"
+          )}`}</font>
         </div>
         <div className="col-2 float-right">
           <img src={`${hero.heroImage}`} />

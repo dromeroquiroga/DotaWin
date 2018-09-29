@@ -24,6 +24,7 @@ import {
 import MapSection from "./MapSection";
 import HomePageSweetAlerts from "./HomePageSweetAlerts";
 import "./HomePage.css";
+import { addingToRadiant, addingToDire } from "./HomePageFunctions";
 
 class Home extends React.Component {
   state = {
@@ -176,7 +177,7 @@ class Home extends React.Component {
     let tempAgiHeroes = this.state.agiHeroes;
     let tempIntHeroes = this.state.intHeroes;
 
-    //Resetting the drafted state if a new matchup is called
+    //Resetting the drafted state of heroes if a new matchup is called
     tempStrHeroes.forEach(strHero => (strHero.drafted = false));
     tempAgiHeroes.forEach(agiHero => (agiHero.drafted = false));
     tempIntHeroes.forEach(intHero => (intHero.drafted = false));
@@ -245,120 +246,64 @@ class Home extends React.Component {
   };
 
   addToRadiant = hero => {
-    let tempRadiantArray = this.state.radiantTeam;
-    let tempRadIconsArray = this.state.radIcons;
-
     if (hero.drafted) {
       this.setState({
         heroDraftedAlert: true
       });
-    } else if (tempRadiantArray.length === 5) {
+    } else if (this.state.radiantTeam.length === 5) {
       this.setState({
         teamFullAlert: true
       });
     } else {
-      hero.drafted = true;
-      let tempHeroObj = { ...hero, position: 1 };
-      tempHeroObj.isRadiant = true;
-      if (hero.primaryAttribute === 1) {
-        let tempStrArray = this.state.strHeroes;
+      //Function from file
+      let draftedState = addingToRadiant(
+        this.state.radiantTeam,
+        this.state.radIcons,
+        hero,
+        this.state.strHeroes,
+        this.state.agiHeroes,
+        this.state.intHeroes
+      );
 
-        tempStrArray[hero.arrayPosition].drafted = true;
-        tempRadiantArray.push(tempHeroObj);
-        tempRadIconsArray.push(hero.heroMinimapIcon);
-
-        this.setState({
-          radiantTeam: tempRadiantArray,
-          radIcons: tempRadIconsArray,
-          strHeroes: tempStrArray,
-          heroSelected: hero
-        });
-      } else if (hero.primaryAttribute === 2) {
-        let tempAgiArray = this.state.agiHeroes;
-
-        tempAgiArray[hero.arrayPosition].drafted = true;
-        tempRadiantArray.push(tempHeroObj);
-        tempRadIconsArray.push(hero.heroMinimapIcon);
-
-        this.setState({
-          radiantTeam: tempRadiantArray,
-          radIcons: tempRadIconsArray,
-          agiHeroes: tempAgiArray,
-          heroSelected: hero
-        });
-      } else if (hero.primaryAttribute === 3) {
-        let tempIntArray = this.state.intHeroes;
-
-        tempIntArray[hero.arrayPosition].drafted = true;
-        tempRadiantArray.push(tempHeroObj);
-        tempRadIconsArray.push(hero.heroMinimapIcon);
-
-        this.setState({
-          radiantTeam: tempRadiantArray,
-          radIcons: tempRadIconsArray,
-          intHeroes: tempIntArray,
-          heroSelected: hero
-        });
-      }
+      this.setState({
+        radiantTeam: draftedState.radiantHeroesArray,
+        radIcons: draftedState.radiantIconsArray,
+        strHeroes: draftedState.strHeroes,
+        agiHeroes: draftedState.agiHeroes,
+        intHeroes: draftedState.intHeroes,
+        heroSelected: draftedState.heroObj
+      });
     }
   };
 
   addToDire = hero => {
-    let tempDireArray = this.state.direTeam;
-    let tempDireIconsArray = this.state.direIcons;
-
     if (hero.drafted) {
       this.setState({
         heroDraftedAlert: true
       });
-    } else if (tempDireArray.length === 5) {
+    } else if (this.state.direTeam === 5) {
       this.setState({
         teamFullAlert: true
       });
     } else {
-      hero.drafted = true;
-      let tempHeroObj = { ...hero, position: 1 };
-      tempHeroObj.isRadiant = false;
-      if (hero.primaryAttribute === 1) {
-        let tempStrArray = this.state.strHeroes;
+      //Function from file
+      let draftedState = addingToDire(
+        this.state.direTeam,
+        this.state.direIcons,
+        hero,
+        this.state.strHeroes,
+        this.state.agiHeroes,
+        this.state.intHeroes
+      );
 
-        tempStrArray[hero.arrayPosition].drafted = true;
-        tempDireArray.push(tempHeroObj);
-        tempDireIconsArray.push(hero.heroMinimapIcon);
-
-        this.setState({
-          direTeam: tempDireArray,
-          direIcons: tempDireIconsArray,
-          strHeroes: tempStrArray,
-          heroSelected: hero
-        });
-      } else if (hero.primaryAttribute === 2) {
-        let tempAgiArray = this.state.agiHeroes;
-
-        tempAgiArray[hero.arrayPosition].drafted = true;
-        tempDireArray.push(tempHeroObj);
-        tempDireIconsArray.push(hero.heroMinimapIcon);
-
-        this.setState({
-          direTeam: tempDireArray,
-          direIcons: tempDireIconsArray,
-          agiHeroes: tempAgiArray,
-          heroSelected: hero
-        });
-      } else if (hero.primaryAttribute === 3) {
-        let tempIntArray = this.state.intHeroes;
-
-        tempIntArray[hero.arrayPosition].drafted = true;
-        tempDireArray.push(tempHeroObj);
-        tempDireIconsArray.push(hero.heroMinimapIcon);
-
-        this.setState({
-          direTeam: tempDireArray,
-          direIcons: tempDireIconsArray,
-          intHeroes: tempIntArray,
-          heroSelected: hero
-        });
-      }
+      this.setState({
+        direTeam: draftedState.direHeroesArray,
+        direIcons: draftedState.direIconsArray,
+        strHeroes: draftedState.strHeroes,
+        agiHeroes: draftedState.agiHeroes,
+        intHeroes: draftedState.intHeroes,
+        heroSelected: draftedState.heroObj
+      });
     }
   };
 
