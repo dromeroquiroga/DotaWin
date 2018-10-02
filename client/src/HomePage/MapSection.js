@@ -4,11 +4,138 @@ import numeral from "numeral";
 
 class MapSection extends React.Component {
   state = {
-    radiantTeam: [],
-    direTeam: [],
-
     whiteText: { color: "white" }
   };
+
+  mapRadiantOffLaneIcon(hero, index) {
+    return (
+      <img
+        className="overlay"
+        style={{
+          marginLeft: `-370px`,
+          marginTop: `${150 + index * 30}px`
+        }}
+        src={`${hero.heroMinimapIcon}`}
+      />
+    );
+  }
+
+  mapRadiantSafeLaneIcon(hero, index) {
+    return (
+      <img
+        className="overlay"
+        style={{
+          marginLeft: `${-110 - index * 30}px`,
+          marginTop: `335px`
+        }}
+        src={`${hero.heroMinimapIcon}`}
+      />
+    );
+  }
+
+  mapRadiantMidLaneIcon(hero, index) {
+    return (
+      <img
+        className="overlay"
+        style={{
+          marginLeft: `${-265 - index * 20}px`,
+          marginTop: `${220 + index * 20}px`
+        }}
+        src={`${hero.heroMinimapIcon}`}
+      />
+    );
+  }
+
+  mapRadiantJungleIcon(hero, index) {
+    if (index < 3) {
+      return (
+        <img
+          className="overlay"
+          style={{
+            marginLeft: `${-200 + index * 30}px`,
+            marginTop: `280px`
+          }}
+          src={`${hero.heroMinimapIcon}`}
+        />
+      );
+    } else {
+      return (
+        <img
+          className="overlay"
+          style={{
+            marginLeft: `${-275 + index * 30}px`,
+            marginTop: `300px`
+          }}
+          src={`${hero.heroMinimapIcon}`}
+        />
+      );
+    }
+  }
+
+  mapDireOffLaneIcon(hero, index) {
+    return (
+      <img
+        className="overlay"
+        style={{
+          marginLeft: `-65px`,
+          marginTop: `${220 - index * 30}px`
+        }}
+        src={`${hero.heroMinimapIcon}`}
+      />
+    );
+  }
+
+  mapDireSafeLaneIcon(hero, index) {
+    return (
+      <img
+        className="overlay"
+        style={{
+          marginLeft: `${-330 + index * 30}px`,
+          marginTop: `35px`
+        }}
+        src={`${hero.heroMinimapIcon}`}
+      />
+    );
+  }
+
+  mapDireMidLaneIcon(hero, index) {
+    return (
+      <img
+        className="overlay"
+        style={{
+          marginLeft: `${-195 + index * 20}px`,
+          marginTop: `${165 - index * 20}px`
+        }}
+        src={`${hero.heroMinimapIcon}`}
+      />
+    );
+  }
+
+  mapDireJungleIcon(hero, index) {
+    if (index < 3) {
+      return (
+        <img
+          className="overlay"
+          style={{
+            marginLeft: `${-270 + index * 30}px`,
+            marginTop: `80px`
+          }}
+          src={`${hero.heroMinimapIcon}`}
+        />
+      );
+    } else {
+      return (
+        <img
+          className="overlay"
+          style={{
+            marginLeft: `${-345 + index * 30}px`,
+            marginTop: `100px`
+          }}
+          src={`${hero.heroMinimapIcon}`}
+        />
+      );
+    }
+  }
 
   mapRadiantTeam(hero, index) {
     let atrSymbol = "";
@@ -108,6 +235,56 @@ class MapSection extends React.Component {
   }
 
   render() {
+    let radiantLanes = {
+      radiantOfflaners: [],
+      radiantSafelaners: [],
+      radiantMidlaners: [],
+      radiantJunglers: []
+    };
+    let direLanes = {
+      direOfflaners: [],
+      direSafelaners: [],
+      direMidlaners: [],
+      direJunglers: []
+    };
+    this.props.radiantTeam.forEach(hero => {
+      switch (hero.position) {
+        case 1:
+          radiantLanes.radiantOfflaners.push(hero);
+          break;
+        case 2:
+          radiantLanes.radiantMidlaners.push(hero);
+          break;
+        case 3:
+          radiantLanes.radiantSafelaners.push(hero);
+          break;
+        case 4:
+          radiantLanes.radiantJunglers.push(hero);
+          break;
+        case 5:
+          break;
+      }
+    });
+
+    this.props.direTeam.forEach(hero => {
+      switch (hero.position) {
+        case 1:
+          direLanes.direOfflaners.push(hero);
+          break;
+        case 2:
+          direLanes.direMidlaners.push(hero);
+          break;
+        case 3:
+          direLanes.direSafelaners.push(hero);
+          break;
+        case 4:
+          direLanes.direJunglers.push(hero);
+          break;
+        case 5:
+          break;
+      }
+    });
+
     const { whiteText } = this.state;
     return (
       <div style={{ marginTop: "20px" }}>
@@ -125,34 +302,35 @@ class MapSection extends React.Component {
             </td>
             <td className="text-center" width="20%">
               <img
+                className="dotamap"
                 src="https://i.imgur.com/90XfxsX.jpg"
                 height="400m"
                 width="400m"
               />
-              {this.props.radiantTeam.map((hero, index) => {
-                return (
-                  <img
-                    className="overlay"
-                    style={{
-                      marginLeft: `${-75 * (index + 1)}px`,
-                      marginTop: "325px"
-                    }}
-                    src={`${hero.heroMinimapIcon}`}
-                  />
-                );
-              })}
-              {this.props.direTeam.map((hero, index) => {
-                return (
-                  <img
-                    className="overlay"
-                    style={{
-                      marginLeft: `${-75 * (index + 1)}px`,
-                      marginTop: "25px"
-                    }}
-                    src={`${hero.heroMinimapIcon}`}
-                  />
-                );
-              })}
+              {radiantLanes.radiantOfflaners.map((hero, index) =>
+                this.mapRadiantOffLaneIcon(hero, index)
+              )}
+              {radiantLanes.radiantSafelaners.map((hero, index) =>
+                this.mapRadiantSafeLaneIcon(hero, index)
+              )}
+              {radiantLanes.radiantMidlaners.map((hero, index) =>
+                this.mapRadiantMidLaneIcon(hero, index)
+              )}
+              {radiantLanes.radiantJunglers.map((hero, index) =>
+                this.mapRadiantJungleIcon(hero, index)
+              )}
+              {direLanes.direOfflaners.map((hero, index) =>
+                this.mapDireOffLaneIcon(hero, index)
+              )}
+              {direLanes.direSafelaners.map((hero, index) =>
+                this.mapDireSafeLaneIcon(hero, index)
+              )}
+              {direLanes.direMidlaners.map((hero, index) =>
+                this.mapDireMidLaneIcon(hero, index)
+              )}
+              {direLanes.direJunglers.map((hero, index) =>
+                this.mapDireJungleIcon(hero, index)
+              )}
             </td>
             <td width="40%">
               <Card body className="boxShadowDire">

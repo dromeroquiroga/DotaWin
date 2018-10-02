@@ -24,7 +24,7 @@ import {
 import MapSection from "./MapSection";
 import HomePageSweetAlerts from "./HomePageSweetAlerts";
 import "./HomePage.css";
-import { addingToRadiant, addingToDire } from "./HomePageFunctions";
+import { addingToRadiant, addingToDire, setMatchup } from "./HomePageFunctions";
 
 class Home extends React.Component {
   state = {
@@ -145,7 +145,7 @@ class Home extends React.Component {
       <DropdownItem
         value={match.templateId}
         onClick={event =>
-          this.setMatchup(event.target.value, match.templateName)
+          this.getMatchup(event.target.value, match.templateName)
         }
       >
         {match.templateName}
@@ -167,81 +167,28 @@ class Home extends React.Component {
     UpdateMatchup(updatedMatchupObj);
   };
 
-  setMatchup = (matchid, matchupName) => {
-    let tempRadiantArray = [];
-    let tempRadIcons = [];
-    let tempDireArray = [];
-    let tempDireIcons = [];
-
-    let tempStrHeroes = this.state.strHeroes;
-    let tempAgiHeroes = this.state.agiHeroes;
-    let tempIntHeroes = this.state.intHeroes;
-
-    //Resetting the drafted state of heroes if a new matchup is called
-    tempStrHeroes.forEach(strHero => (strHero.drafted = false));
-    tempAgiHeroes.forEach(agiHero => (agiHero.drafted = false));
-    tempIntHeroes.forEach(intHero => (intHero.drafted = false));
-
-    let grabMatchup = GetMatchup(matchid);
-
-    grabMatchup.then(response => {
-      response.data.forEach(hero => {
-        if (hero.isRadiant) {
-          tempRadiantArray.push(hero);
-          tempRadIcons.push(hero.heroMinimapIcon);
-        } else {
-          tempDireArray.push(hero);
-          tempDireIcons.push(hero.heroMinimapIcon);
-        }
-      });
-      tempRadiantArray.forEach(matchedHero => {
-        tempStrHeroes.forEach(strHero => {
-          if (matchedHero.heroId === strHero.heroId) {
-            strHero.drafted = true;
-          }
+  getMatchup = (matchId, matchupName) => {
+    //Function from File (Made into a custom Promise function)
+    setMatchup(
+      this.state.strHeroes,
+      this.state.agiHeroes,
+      this.state.intHeroes,
+      matchId
+    ).then(matchInfo => {
+      if (matchInfo !== undefined) {
+        this.setState({
+          matchupName: matchupName,
+          matchupSelected: true,
+          matchupIdSelected: matchId,
+          radiantTeam: matchInfo.radiantTeam,
+          direTeam: matchInfo.direTeam,
+          radIcons: matchInfo.radIcons,
+          direIcons: matchInfo.direIcons,
+          strHeroes: matchInfo.strHeroes,
+          agiHeroes: matchInfo.agiHeroes,
+          intHeroes: matchInfo.intHeroes
         });
-        tempAgiHeroes.forEach(agiHero => {
-          if (matchedHero.heroId === agiHero.heroId) {
-            agiHero.drafted = true;
-          }
-        });
-        tempIntHeroes.forEach(intHero => {
-          if (matchedHero.heroId === intHero.heroId) {
-            intHero.drafted = true;
-          }
-        });
-      });
-
-      tempDireArray.forEach(matchedHero => {
-        tempStrHeroes.forEach(strHero => {
-          if (matchedHero.heroId === strHero.heroId) {
-            strHero.drafted = true;
-          }
-        });
-        tempAgiHeroes.forEach(agiHero => {
-          if (matchedHero.heroId === agiHero.heroId) {
-            agiHero.drafted = true;
-          }
-        });
-        tempIntHeroes.forEach(intHero => {
-          if (matchedHero.heroId === intHero.heroId) {
-            intHero.drafted = true;
-          }
-        });
-      });
-
-      this.setState({
-        matchupName: matchupName,
-        matchupSelected: true,
-        matchupIdSelected: matchid,
-        radiantTeam: tempRadiantArray,
-        direTeam: tempDireArray,
-        radIcons: tempRadIcons,
-        direIcons: tempDireIcons,
-        strHeroes: tempStrHeroes,
-        agiHeroes: tempAgiHeroes,
-        intHeroes: tempIntHeroes
-      });
+      }
     });
   };
 
@@ -281,7 +228,7 @@ class Home extends React.Component {
       this.setState({
         heroDraftedAlert: true
       });
-    } else if (this.state.direTeam === 5) {
+    } else if (this.state.direTeam.length === 5) {
       this.setState({
         teamFullAlert: true
       });
@@ -310,14 +257,14 @@ class Home extends React.Component {
   changeHeroPosition = (value, index, isRadiant) => {
     if (isRadiant) {
       let tempRadiantArray = this.state.radiantTeam;
-      tempRadiantArray[index].position = value;
+      tempRadiantArray[index].position = Number(value);
 
       this.setState({
         radiantTeam: tempRadiantArray
       });
     } else {
       let tempDireArray = this.state.direTeam;
-      tempDireArray[index].position = value;
+      tempDireArray[index].position = Number(value);
 
       this.setState({
         direTeam: tempDireArray
