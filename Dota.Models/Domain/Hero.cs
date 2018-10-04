@@ -24,5 +24,6 @@ namespace Dota.Models.Domain
         public decimal SafeWinRate { get; set; }
         public decimal JungleWinRate { get; set; }
         public decimal RoamingWinRate { get; set; }
+        public List<string> Abilities { get; set; }
     }
 }
