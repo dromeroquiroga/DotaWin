@@ -85,5 +85,12 @@ namespace Dota.Web.Controllers.API
 
             return Request.CreateResponse(HttpStatusCode.OK, matchList);
         }
+
+        [Route("matchup/teamWinRates"), HttpPut]
+        public HttpResponseMessage GetWinPercentages(Teams radiantDireSides)
+        {
+            TeamWinRates winRates = heroService.GetTeamWinRates(radiantDireSides);
+            return Request.CreateResponse(HttpStatusCode.OK, winRates);
+        }
     }
 }

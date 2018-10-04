@@ -47,6 +47,7 @@ class Home extends React.Component {
     teamFullAlert: false,
     heroDraftedAlert: false,
     templateNameAlert: false,
+    matchupDeletedAlert: false,
 
     dropdownToggle: false,
 
@@ -57,6 +58,7 @@ class Home extends React.Component {
     let grabHeroes = GetAllHeroes();
 
     grabHeroes.then(response1 => {
+      console.log(response1);
       let tempStrArray = [];
       let tempAgiArray = [];
       let tempIntArray = [];
@@ -103,6 +105,12 @@ class Home extends React.Component {
   templateNameAlertOff = () => {
     this.setState({
       templateNameAlert: false
+    });
+  };
+
+  matchupDeletedAlertOff = () => {
+    this.setState({
+      matchupDeletedAlert: false
     });
   };
 
@@ -155,6 +163,9 @@ class Home extends React.Component {
 
   deleteMatchup = matchId => {
     DeleteMatchup(matchId);
+    this.setState({
+      matchupDeletedAlert: true
+    });
   };
 
   updateMatchup = () => {
@@ -292,7 +303,7 @@ class Home extends React.Component {
           <style>{"body { background-color: #222; }"}</style>
         </Helmet>
         <h1 style={whiteText} className="title text-center">
-          Here is the home page my guy!
+          Draft Your Teams My Guy!
         </h1>
         <Row style={{ marginLeft: 0, marginRight: 0 }}>
           <Col>
@@ -346,16 +357,28 @@ class Home extends React.Component {
         </Row>
         <div
           className="row justify-content-center"
-          style={{ marginLeft: 0, marginRight: 0, marginTop: "20px" }}
+          style={{ marginLeft: 0, marginRight: 0, marginTop: 20 }}
         >
-          <img
-            src={`${
+          <h1 style={whiteText} className="title text-center">
+            {`${
               this.state.heroSelected.heroName === undefined
-                ? "https://i.imgur.com/69t4o4W.jpg"
-                : this.state.heroSelected.heroSelectedImage
+                ? "No Hero Chosen"
+                : this.state.heroSelected.heroName
             }`}
+          </h1>
+        </div>
+        <div
+          className="row justify-content-center"
+          style={{ marginLeft: 0, marginRight: 0, marginTop: 10 }}
+        >
+          <video
+            className="heroPortrait"
+            poster="https://i.imgur.com/69t4o4W.jpg"
+            src={this.state.heroSelected.heroSelectedImage}
             width="235"
             height="272"
+            autoPlay
+            loop
           />
           <img
             className="overlay"
@@ -366,15 +389,37 @@ class Home extends React.Component {
         </div>
         <div
           className="row justify-content-center"
-          style={{ marginLeft: 0, marginRight: 0 }}
+          style={{
+            marginLeft: 0,
+            marginRight: 0,
+            marginTop: 10,
+            marginBottom: 10
+          }}
         >
-          <h1 style={whiteText} className="title text-center">
-            {`${
-              this.state.heroSelected.heroName === undefined
-                ? "No Hero Chosen"
-                : this.state.heroSelected.heroName
-            }`}
-          </h1>
+          <img
+            src={`https://i.imgur.com/69t4o4W.jpg`}
+            width="90"
+            height="90"
+            style={{ padding: 5 }}
+          />
+          <img
+            src={`https://i.imgur.com/69t4o4W.jpg`}
+            width="90"
+            height="90"
+            style={{ padding: 5 }}
+          />
+          <img
+            src={`https://i.imgur.com/69t4o4W.jpg`}
+            width="90"
+            height="90"
+            style={{ padding: 5 }}
+          />
+          <img
+            src={`https://i.imgur.com/69t4o4W.jpg`}
+            width="90"
+            height="90"
+            style={{ padding: 5 }}
+          />
         </div>
         <div
           className="row justify-content-center"
@@ -486,6 +531,8 @@ class Home extends React.Component {
           teamFullAlertOff={() => this.teamFullAlertOff()}
           heroDraftedAlert={this.state.heroDraftedAlert}
           heroDraftedAlertOff={() => this.heroDraftedAlertOff()}
+          matchupDeletedAlert={this.state.matchupDeletedAlert}
+          matchupDeletedAlertOff={() => this.matchupDeletedAlertOff()}
           submitMatchup={templateName =>
             this.submitMatchup(
               this.state.radiantTeam,

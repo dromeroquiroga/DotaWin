@@ -62,7 +62,7 @@ export function addingToDire(
   };
 
   returnObj.heroObj.drafted = true;
-  returnObj.heroObj.isRadiant = true;
+  returnObj.heroObj.isRadiant = false;
 
   switch (returnObj.heroObj.primaryAttribute) {
     case 1:

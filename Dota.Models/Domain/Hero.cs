@@ -19,5 +19,10 @@ namespace Dota.Models.Domain
         public int HeroTier { get; set; }
         public bool Drafted { get; set; }
         public decimal HeroWinRate { get; set; }
+        public decimal MidWinRate { get; set; }
+        public decimal OffWinRate { get; set; }
+        public decimal SafeWinRate { get; set; }
+        public decimal JungleWinRate { get; set; }
+        public decimal RoamingWinRate { get; set; }
     }
 }

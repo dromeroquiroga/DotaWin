@@ -42,8 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Hero.cs" />
+    <Compile Include="Domain\Teams.cs" />
+    <Compile Include="Domain\TeamWinRates.cs" />
     <Compile Include="Domain\Template.cs" />
     <Compile Include="Domain\TemplateMatchupInfo.cs" />
+    <Compile Include="Enums\MatchEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\CreateHeroRequest.cs" />
     <Compile Include="Requests\CreateTemplateInfo.cs" />

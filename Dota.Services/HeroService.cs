@@ -14,13 +14,12 @@ namespace Dota.Services
 {
     public class HeroService
     {
-        public string connString = "Data Source=DAN-LAPTOP;Initial Catalog=DotaWin;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        public string connString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
         public List<Hero> getAll()
         {
             List<Hero> heroList = new List<Hero>();
 
-            //string connString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             SqlConnection sqlCon = new SqlConnection(connString);
             {
                 sqlCon.Open();
@@ -42,7 +41,12 @@ namespace Dota.Services
                         HeroImage = (string)reader["HeroImage"],
                         HeroSelectedImage = (string)reader["HeroSelectedImage"],
                         HeroMinimapIcon = (string)reader["HeroMinimapIcon"],
-                        HeroWinRate = (decimal)reader["HeroWinRate"]
+                        HeroWinRate = (decimal)reader["HeroWinRate"],
+                        MidWinRate = (decimal)reader["MidWinRate"],
+                        OffWinRate = (decimal)reader["OffWinRate"],
+                        SafeWinRate = (decimal)reader["SafeWinRate"],
+                        JungleWinRate = (decimal)reader["JungleWinRate"],
+                        RoamingWinRate = (decimal)reader["RoamingWinRate"]
                     };
 
                     heroList.Add(heroToAdd);
@@ -53,6 +57,70 @@ namespace Dota.Services
 
             return heroList;
 
+        }
+
+        public TeamWinRates GetTeamWinRates(Teams teamsToCompare)
+        {
+            TeamWinRates winPercentages = new TeamWinRates();
+
+            SqlConnection sqlCon = new SqlConnection(connString);
+            {
+                sqlCon.Open();
+
+                SqlCommand cmd = sqlCon.CreateCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "MatchOdds";
+
+                cmd.Parameters.AddWithValue("@radiantHero1", teamsToCompare.RadiantHero1);
+                cmd.Parameters.AddWithValue("@radiantHero1Position", teamsToCompare.RadiantHero1Position);
+                cmd.Parameters.AddWithValue("@radiantHero2", teamsToCompare.RadiantHero2);
+                cmd.Parameters.AddWithValue("@radiantHero2Position", teamsToCompare.RadiantHero2Position);
+                cmd.Parameters.AddWithValue("@radiantHero3", teamsToCompare.RadiantHero3);
+                cmd.Parameters.AddWithValue("@radiantHero3Position", teamsToCompare.RadiantHero3Position);
+                cmd.Parameters.AddWithValue("@radiantHero4", teamsToCompare.RadiantHero4);
+                cmd.Parameters.AddWithValue("@radiantHero4Position", teamsToCompare.RadiantHero4Position);
+                cmd.Parameters.AddWithValue("@radiantHero5", teamsToCompare.RadiantHero5);
+                cmd.Parameters.AddWithValue("@radiantHero5Position", teamsToCompare.RadiantHero5Position);
+                cmd.Parameters.AddWithValue("@direHero1", teamsToCompare.DireHero1);
+                cmd.Parameters.AddWithValue("@direHero1Position", teamsToCompare.DireHero1Position);
+                cmd.Parameters.AddWithValue("@direHero2", teamsToCompare.DireHero2);
+                cmd.Parameters.AddWithValue("@direHero2Position", teamsToCompare.DireHero2Position);
+                cmd.Parameters.AddWithValue("@direHero3", teamsToCompare.DireHero3);
+                cmd.Parameters.AddWithValue("@direHero3Position", teamsToCompare.DireHero3Position);
+                cmd.Parameters.AddWithValue("@direHero4", teamsToCompare.DireHero4);
+                cmd.Parameters.AddWithValue("@direHero4Position", teamsToCompare.DireHero4Position);
+                cmd.Parameters.AddWithValue("@direHero5", teamsToCompare.DireHero5);
+                cmd.Parameters.AddWithValue("@direHero5Position", teamsToCompare.DireHero5Position);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while(reader.Read())
+                {
+                    if (reader["Radiant Win Rate"].Equals(DBNull.Value))
+                    {
+                        winPercentages.RadiantWinRate = 0;
+                    }
+                    else
+                    {
+                        winPercentages.RadiantWinRate = (decimal)reader["Radiant Win Rate"];
+                    }
+
+                    if (reader["Dire Win Rate"].Equals(DBNull.Value))
+                    {
+                        winPercentages.DireWinRate = 0;
+                    }
+                    else
+                    {
+                        winPercentages.DireWinRate = (decimal)reader["Dire Win Rate"];
+                    }
+                }
+
+                sqlCon.Close();
+            }
+
+            winPercentages.ConvertTo100Descrepency();
+
+            return winPercentages;
         }
 
         public void InsertMatchTemplate(CreateTemplateInfo templateToInsert)
@@ -170,7 +238,12 @@ namespace Dota.Services
                         HeroImage = (string)reader["HeroImage"],
                         HeroSelectedImage = (string)reader["HeroSelectedImage"],
                         HeroMinimapIcon = (string)reader["HeroMinimapIcon"],
-                        HeroWinRate = (decimal)reader["HeroWinRate"]
+                        HeroWinRate = (decimal)reader["HeroWinRate"],
+                        MidWinRate = (decimal)reader["MidWinRate"],
+                        OffWinRate = (decimal)reader["OffWinRate"],
+                        SafeWinRate = (decimal)reader["SafeWinRate"],
+                        JungleWinRate = (decimal)reader["JungleWinRate"],
+                        RoamingWinRate = (decimal)reader["RoamingWinRate"]
                     };
 
                     matchupList.Add(heroToAdd);

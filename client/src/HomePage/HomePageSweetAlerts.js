@@ -36,6 +36,12 @@ class HomePageSweetAlerts extends React.Component {
             }
           />
         </SweetAlert>
+        <SweetAlert
+          success
+          show={this.props.matchupDeletedAlert}
+          title="This Matchup Has Been Deleted Brother!"
+          onConfirm={() => this.props.matchupDeletedAlertOff()}
+        />
       </div>
     );
   }
