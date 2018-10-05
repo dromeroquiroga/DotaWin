@@ -15,8 +15,11 @@
 .env.development.local
 .env.test.local
 .env.production.local
-AzureConnString.config
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+#important files
+Dota.Web/DBConnString.config
+Dota.Web/Properties/PublishedProfiles

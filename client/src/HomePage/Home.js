@@ -1,11 +1,9 @@
 import React from "react";
-import { mapTemplates } from "./HomePageFunctions";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
   GetAllHeroes,
   InsertMatchup,
   GetTemplates,
-  GetMatchup,
   DeleteMatchup,
   UpdateMatchup
 } from "../Services/HeroService";
