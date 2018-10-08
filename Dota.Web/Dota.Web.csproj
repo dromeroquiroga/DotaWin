@@ -240,6 +240,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <Content Include="DBConnString.config" />
+    <Content Include="LocalDBConnString.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -37,13 +37,19 @@ class MapSection extends React.Component {
     }
     return (
       <div className="row" style={{ marginTop: "5px" }}>
-        <div className="col-2">
+        <div className="col-3">
+          <Button
+            size="sm"
+            style={{ marginRight: 5, backgroundColor: "#f00f12" }}
+          >
+            X
+          </Button>
           <img src={`${hero.heroImage}`} />
         </div>
         <div className="col-3" style={{ textAlign: "center" }}>
           <font color="white">{`${hero.heroName}`}</font>
         </div>
-        <div className="col-2" style={{ textAlign: "center" }}>
+        <div className="col-1" style={{ textAlign: "center" }}>
           <img src={`${atrSymbol}`} height="30px" width="30px" />
         </div>
         <div className="col-2 float-right">
@@ -102,14 +108,20 @@ class MapSection extends React.Component {
         <div className="col-2" style={{ textAlign: "right" }}>
           <font color="white">{`${SelectLaneWinRate(hero)}`}</font>
         </div>
-        <div className="col-2" style={{ textAlign: "center" }}>
+        <div className="col-1" style={{ textAlign: "center" }}>
           <img src={`${atrSymbol}`} height="30px" width="30px" />
         </div>
         <div className="col-3" style={{ textAlign: "center" }}>
           <font color="white">{`${hero.heroName}`}</font>
         </div>
-        <div className="col-2" style={{ textAlign: "right" }}>
+        <div className="col-3" style={{ textAlign: "right" }}>
           <img src={`${hero.heroImage}`} />
+          <Button
+            size="sm"
+            style={{ marginLeft: 5, backgroundColor: "#f00f12" }}
+          >
+            X
+          </Button>
         </div>
       </div>
     );
@@ -137,7 +149,7 @@ class MapSection extends React.Component {
             height="25px"
             width="35px"
           />
-          Teams Locked
+          Teams Locked!
         </Button>
       );
     } else {

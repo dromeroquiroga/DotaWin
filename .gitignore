@@ -267,4 +267,5 @@ __pycache__/
 package-lock.json
 # Azure Database Conn String
 Dota.Web/DBConnString.config
+Dota.Web/LocalDBConnString.config
 Dota.Web/Properties/PublishProfiles

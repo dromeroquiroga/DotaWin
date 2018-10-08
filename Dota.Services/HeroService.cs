@@ -46,8 +46,26 @@ namespace Dota.Services
                         OffWinRate = (decimal)reader["OffWinRate"],
                         SafeWinRate = (decimal)reader["SafeWinRate"],
                         JungleWinRate = (decimal)reader["JungleWinRate"],
-                        RoamingWinRate = (decimal)reader["RoamingWinRate"]
+                        RoamingWinRate = (decimal)reader["RoamingWinRate"],
+                };
+                    List<string> abilityList = new List<string>
+                    {
+                        (string)reader["Ability1"],
+                        (string)reader["Ability2"],
+                        (string)reader["Ability3"],
+                        (string)reader["Ability4"]
                     };
+
+                    if (!reader["Ability5"].Equals(DBNull.Value))
+                    {
+                        abilityList.Add((string)reader["Ability5"]);
+                    }
+                    if (!reader["Ability6"].Equals(DBNull.Value))
+                    {
+                        abilityList.Add((string)reader["Ability6"]);
+                    }
+
+                    heroToAdd.Abilities = abilityList;
 
                     heroList.Add(heroToAdd);
                 }

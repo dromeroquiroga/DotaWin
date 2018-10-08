@@ -146,6 +146,10 @@ class Home extends React.Component {
     }
   }
 
+  mapHeroAbilities(ability) {
+    return <img src={ability} width="90" height="90" style={{ padding: 5 }} />;
+  }
+
   mapTemplates(match) {
     return (
       <DropdownItem
@@ -394,30 +398,11 @@ class Home extends React.Component {
             marginBottom: 10
           }}
         >
-          <img
-            src={`https://i.imgur.com/69t4o4W.jpg`}
-            width="90"
-            height="90"
-            style={{ padding: 5 }}
-          />
-          <img
-            src={`https://i.imgur.com/69t4o4W.jpg`}
-            width="90"
-            height="90"
-            style={{ padding: 5 }}
-          />
-          <img
-            src={`https://i.imgur.com/69t4o4W.jpg`}
-            width="90"
-            height="90"
-            style={{ padding: 5 }}
-          />
-          <img
-            src={`https://i.imgur.com/69t4o4W.jpg`}
-            width="90"
-            height="90"
-            style={{ padding: 5 }}
-          />
+          {this.state.heroSelected.abilities === undefined
+            ? ""
+            : this.state.heroSelected.abilities.map(ability =>
+                this.mapHeroAbilities(ability)
+              )}
         </div>
         <div
           className="row justify-content-center"
