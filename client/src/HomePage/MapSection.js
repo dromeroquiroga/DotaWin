@@ -22,6 +22,15 @@ class MapSection extends React.Component {
     whiteText: { color: "white" }
   };
 
+  removeRadiantHero(radiantArrayIndex) {
+    let tempRadiantTeamArray = [];
+    tempRadiantTeamArray = this.props.radiantTeam;
+
+    tempRadiantTeamArray.splice(radiantArrayIndex, 1);
+
+    this.props.updateRadiantTeam(tempRadiantTeamArray);
+  }
+
   mapRadiantTeam(hero, index) {
     let atrSymbol = "";
 
@@ -41,6 +50,7 @@ class MapSection extends React.Component {
           <Button
             size="sm"
             style={{ marginRight: 5, backgroundColor: "#f00f12" }}
+            onClick={() => this.removeRadiantHero(index)}
           >
             X
           </Button>

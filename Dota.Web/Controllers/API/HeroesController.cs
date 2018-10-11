@@ -28,6 +28,16 @@ namespace Dota.Web.Controllers.API
             return Request.CreateResponse(HttpStatusCode.OK, heroList);
         }
 
+        [Route("lanerates"), HttpGet]
+        public HttpResponseMessage GetLaneRates()
+        {
+            List<LaneWinRate> laneWinRates = new List<LaneWinRate>();
+
+            laneWinRates = heroService.GetLaneWinRates();
+
+            return Request.CreateResponse(HttpStatusCode.OK, laneWinRates);
+        }
+
         [Route("matchup"), HttpPost]
         public HttpResponseMessage CreateMatchup(CreateTemplateInfo matchCreateRequest)
         {

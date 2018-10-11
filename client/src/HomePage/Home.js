@@ -118,6 +118,18 @@ class Home extends React.Component {
     this.setState({ heroSelected: tempHeroObj });
   };
 
+  updateRadiantTeam(radiantArray) {
+    this.setState({
+      radiantTeam: radiantArray
+    });
+  }
+
+  updateDireTeam(direArray) {
+    this.setState({
+      direTeam: direArray
+    });
+  }
+
   mapHeroes(hero, index) {
     if (hero.drafted) {
       return (
@@ -438,6 +450,10 @@ class Home extends React.Component {
           changeHeroPosition={(value, index, isRadiant) =>
             this.changeHeroPosition(value, index, isRadiant)
           }
+          updateRadiantTeam={radiantArray =>
+            this.updateRadiantTeam(radiantArray)
+          }
+          updateDireTeam={direArray => this.updateDireTeam(direArray)}
         />
         <div
           className="row justify-content-center"

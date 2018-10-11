@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Hero.cs" />
+    <Compile Include="Domain\LaneWinRate.cs" />
     <Compile Include="Domain\Teams.cs" />
     <Compile Include="Domain\TeamWinRates.cs" />
     <Compile Include="Domain\Template.cs" />

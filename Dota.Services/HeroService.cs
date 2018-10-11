@@ -159,6 +159,37 @@ namespace Dota.Services
             }
         }
 
+        public List<LaneWinRate> GetLaneWinRates()
+        {
+            List<LaneWinRate> laneWinRates = new List<LaneWinRate>();
+
+            SqlConnection sqlCon = new SqlConnection(connString);
+            {
+                sqlCon.Open();
+
+                SqlCommand cmd = sqlCon.CreateCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "GetLaneWinRates";
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while(reader.Read())
+                {
+                    LaneWinRate winRateToAdd = new LaneWinRate
+                    {
+                        LaningPhaseId = (int)reader["Id"],
+                        LaneAssignmentName = (string)reader["LaneAssignmentName"],
+                        LaneNumbers = (string)reader["LaneNumbers"],
+                        LaneAssignmentWinRate = (decimal)reader["LaneAssignmentWinRate"]
+                    };
+
+                    laneWinRates.Add(winRateToAdd);
+                }
+
+                return laneWinRates;
+            }
+        }
+
         public void UpdateMatchTemplate(UpdateTemplateInfo templateInfo)
         {
             SqlConnection sqlCon = new SqlConnection(connString);
